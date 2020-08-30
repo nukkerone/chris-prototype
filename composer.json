@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
+        "kalnoy/nestedset": "^5.0",
         "laravel/framework": "^7.24",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.2"
@@ -60,5 +61,12 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    }
+    },
+    "repositories": [
+        {
+            "url": "https://github.com/jasonmccreary/laravel-nestedset.git",
+            "type": "git",
+            "reference": "patch-1"
+        }
+    ]
 }
