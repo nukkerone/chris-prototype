@@ -20,7 +20,7 @@
                                         <p>Users unassigned: {{ $unassigned_user_qty }}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>Accumulated payments: {{ $flower->accumulated_payments }}</p>
+
                                     </div>
                                 </div>
                             </div>
