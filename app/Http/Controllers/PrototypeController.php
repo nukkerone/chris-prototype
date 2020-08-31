@@ -6,6 +6,7 @@ use App\Flower;
 use App\User;
 use App\UserRef;
 use Faker\Factory as FakerFactory;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 
 class PrototypeController extends Controller
@@ -44,6 +45,32 @@ class PrototypeController extends Controller
         ]);
     }
 
+    public function showUser($id) {
+        $user = User::find($id);
+        $userRefs = UserRef::query()->with('user')->withDepth()->where('user_id', '=', $user->id)->get();
+        $userRef = $userRefs->last();
+        if (!$userRef)  return;
+        $depth = $userRef->depth;
+        $week = $this->flower->current_week;
+
+        if ($depth == $week - 1) $subflowerRoot = new Collection([$userRef]);
+        else    $subflowerRoot = UserRef::withDepth()->with('user')->having('depth', '=', ($week - 1))->ancestorsOf($userRef->id);
+
+        $tree = $subflowerRoot->map(function($ref) use ($week) {
+            $tree = $ref->descendants()->with('user')->withDepth()->having('depth', '<', $week + 3)->get()->toTree();
+            return $ref->setRelation('children', $tree)->unsetRelation('descendants');
+        });
+
+        return view('prototype.user', [
+            'flower' => $this->flower,
+            'tree' => addslashes($tree->toJson()),
+            'user' => $user,
+            'position' => User::readablePosition($week, $depth),
+            /*'users' => $allUsers->pluck('user'),*/
+            /*'unassigned_user_qty' => User::query()->where('unassigned', '=', true)->count(),*/
+        ]);
+    }
+
     public function createUsers() {
         $quantity = request()->has('qty') ? request()->get('qty') : 10;
         $usersData = [];
@@ -61,7 +88,9 @@ class PrototypeController extends Controller
             $i++;
         }
 
-        $users = User::insert($usersData);
+        try {
+            $users = User::insert($usersData);
+        } catch (\Exception $e) {}
 
         return redirect('prototype')->with('success', 'Users Generated');
     }

@@ -36,4 +36,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function readablePosition($week, $position) {
+        $pos = abs($week - $position - 1);
+        switch ($pos) {
+            case 0:
+                return 'Water';
+            case 1:
+                return 'Earth';
+            case 2:
+                return 'Air';
+            case 3:
+                return 'Fire';
+        }
+        return '';
+    }
 }
