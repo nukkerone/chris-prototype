@@ -26,6 +26,31 @@
                             </div>
 
                             <div id="myVisualTree" style="border: 1px solid black; background:#1F4963; width: 100%; height: 300px"></div>
+
+                            <form class="form-inline p-3" method="POST" action="{{ url('/prototype/create-users') }}">
+                                @csrf
+                                <div class="form-group mb-2 mr-2">
+                                    <label for="add-users-input" class="mr-2">Generate users</label>
+                                    <input type="text" class="form-control" id="add-users-input" name="qty" placeholder="Quantity" value="100">
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-2">Generate</button>
+                            </form>
+
+                            <form class="form-inline p-3" method="POST" action="{{ url('/prototype/assign-users') }}">
+                                @csrf
+                                <div class="form-group mb-2 mr-2">
+                                    <label for="fill-flower-input" class="mr-2">Fill flowers & Advance week</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-2">Fill & Advance</button>
+                            </form>
+
+                            <form class="form-inline p-3" method="POST" action="{{ url('/prototype/reset-database') }}">
+                                @csrf
+                                <div class="form-group mb-2 mr-2">
+                                    <label for="fill-flower-input" class="mr-2">Reset database</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-2">Reset Database</button>
+                            </form>
                         </div>
                         <div class="col-md-6">
                             <table class="table table-dark">

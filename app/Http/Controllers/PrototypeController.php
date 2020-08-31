@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Flower;
 use App\User;
 use App\UserRef;
-use Illuminate\Http\Request;
 use Faker\Factory as FakerFactory;
-use phpDocumentor\Reflection\Element;
+use Illuminate\Support\Facades\Artisan;
 
 class PrototypeController extends Controller
 {
@@ -64,11 +63,11 @@ class PrototypeController extends Controller
 
         $users = User::insert($usersData);
 
-        return $users;
+        return redirect('prototype')->with('success', 'Users Generated');
     }
 
     public function assignUsers() {
-        $this->_assignUsers($this->flower->id);
+        return $this->_assignUsers($this->flower->id);
     }
 
     public function _assignUsers($flowerId) {
@@ -148,20 +147,16 @@ class PrototypeController extends Controller
                 $waterRef->user->unassigned = false;
                 $waterRef->user->save();
             });
+            return redirect('prototype')->with('success', 'Users assigned and Week advanced');
+        } else {
+            return redirect('prototype')->with('success', 'Users assigned, but there are still missing users to complete flower and advance te Week.');
         }
 
-        return $assignableUsers;
     }
 
-    public function assignableUsers($userRef) {
+    public function resetDatabase() {
+        Artisan::call('migrate:refresh');
 
-    }
-
-    public function _assign($userRef, $from, $to) {
-        if ($userRef) {
-            if ($userRef->user_id) {
-
-            }
-        }
+        return redirect('prototype')->with('success', 'Database Reset');
     }
 }

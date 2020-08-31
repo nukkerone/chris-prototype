@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/prototype', 'PrototypeController@index');
-Route::post('/prototype/users', 'PrototypeController@createUsers');
-Route::post('/prototype/users-assign', 'PrototypeController@assignUsers');
-Route::post('/prototype/advance-week', 'PrototypeController@advanceWeek');
+Route::get('/prototype', 'PrototypeController@index')->name('prototype');
+Route::post('/prototype/create-users', 'PrototypeController@createUsers');
+Route::post('/prototype/assign-users', 'PrototypeController@assignUsers');
+Route::post('/prototype/reset-database', 'PrototypeController@resetDatabase');
